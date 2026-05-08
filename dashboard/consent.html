@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AETHER — Privacy & Consent</title>
+    <style>
+        body { font-family: system-ui; max-width: 700px; margin: 40px auto; padding: 20px; }
+        .card { border: 1px solid #ddd; border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+        button { padding: 12px 24px; font-size: 16px; margin: 8px; border-radius: 8px; cursor: pointer; }
+        .primary { background: #0066ff; color: white; border: none; }
+    </style>
+</head>
+<body>
+    <h1>AETHER Privacy Settings</h1>
+    <p>AETHER improves itself using real data from the community. You control exactly what is shared.</p>
+
+    <div class="card">
+        <h3>Current Setting: <span id="current">Loading...</span></h3>
+        
+        <button onclick="setConsent('none')">No Data Sharing</button>
+        <button onclick="setConsent('events')" class="primary">Share Anonymized Events</button>
+        <button onclick="setConsent('full')">Share Events + My Feedback</button>
+    </div>
+
+    <p><strong>All data is anonymized.</strong> We never store raw video or exact locations without your explicit permission.</p>
+
+    <script>
+        function setConsent(level) {
+            fetch('/api/consent', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({level: level})
+            }).then(() => location.reload());
+        }
+        
+        // Load current setting (placeholder)
+        document.getElementById('current').innerText = 'Anonymized Events (recommended)';
+    </script>
+</body>
+</html>

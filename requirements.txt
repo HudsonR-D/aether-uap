@@ -1,0 +1,14 @@
+# AETHER Core Requirements
+opencv-python>=4.9.0
+ultralytics>=8.2.0
+numpy>=1.26
+pyyaml>=6.0
+requests>=2.31
+
+# Optional (for production)
+# torch>=2.3.0
+# basicsr
+# realesrgan
+
+# Meta & Learning
+# google-generativeai  # for Gemini integration

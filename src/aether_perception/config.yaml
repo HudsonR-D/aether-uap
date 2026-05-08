@@ -1,0 +1,8 @@
+# AETHER Perception Config (Sandbox)
+model_path: "yolov8n.pt"          # Change to yolov10 or custom sky model in prod
+confidence_threshold: 0.55
+max_streams: 4
+use_deepstream: false             # Set true in production
+kinematic_thresholds:
+  speed_mps: 180
+  accel_g: 3.5

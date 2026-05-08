@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  aether-perception:
+    build: ./src/aether_perception
+    volumes:
+      - ./config:/app/config
+      - ./recordings:/app/recordings
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+
+  aether-agent:
+    build: ./src/aether_agent
+    depends_on:
+      - aether-perception
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    restart: unless-stopped
+
+  aether-learning:
+    build: ./src/aether_learning
+    volumes:
+      - learning_data:/app/learning_data
+    restart: unless-stopped
+
+  aether-meta:
+    build: ./src/aether_meta
+    depends_on:
+      - aether-learning
+    volumes:
+      - checkpoints:/app/checkpoints
+    restart: unless-stopped
+
+  aether-dashboard:
+    build: ./dashboard
+    ports:
+      - "8080:8080"
+    environment:
+      - CONSENT_MANAGER_ENABLED=true
+    restart: unless-stopped
+
+volumes:
+  learning_data:
+  checkpoints:
+  recordings:
